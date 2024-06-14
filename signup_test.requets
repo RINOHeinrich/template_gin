@@ -1,0 +1,11 @@
+{
+  "body": {
+    "content": "ewogICAgIkVtYWlsIjogInJpbm9iZWluZm9AZ21haWwuY29tIiwKICAgICJQYXNzd29yZCI6ICIxMjM0NTYiLAogICAgIkZpcnN0X25hbWUiOiAidGVzdCIsCiAgICAiTGFzdF9uYW1lIjogImdvbGFuZyIsCiAgICAiVXNlcl90eXBlIjogIkFETUlOIiwKICAgICJQaG9uZSI6ICIxMjM0NTY3ODk4Igp9",
+    "file": false,
+    "fileSize": false
+  },
+  "headers": {},
+  "method": "POST",
+  "title": "sign_up",
+  "url": "http://localhost:8000/users/signup"
+}

@@ -11,7 +11,8 @@ import (
 )
 
 func DBSet() *mongo.Client {
-	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI("mongodb://localhost:27017/"))
+	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI("mongodb://localhost:27017/").SetServerAPIOptions(serverAPI))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,6 +30,6 @@ func DBSet() *mongo.Client {
 var Client *mongo.Client = DBSet()
 
 func UserData(client *mongo.Client, CollectionName string) *mongo.Collection {
-	var collection *mongo.Collection = client.Database("Cluster0").Collection(CollectionName)
+	var collection *mongo.Collection = client.Database("authentification").Collection(CollectionName)
 	return collection
 }

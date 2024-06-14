@@ -8,16 +8,15 @@ import (
 	"strconv"
 	"time"
 
+	database "github.com/RINOBE/gestion_de_livre/databases"
+	helper "github.com/RINOBE/gestion_de_livre/helpers"
+	"github.com/RINOBE/gestion_de_livre/models"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/golangcompany/JWT-Authentication/database"
-	helper "github.com/golangcompany/JWT-Authentication/helpers"
-	"github.com/golangcompany/JWT-Authentication/models"
-	"golang.org/x/crypto/bcrypt"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var userCollection *mongo.Collection = database.UserData(database.Client, "user")
@@ -206,5 +205,15 @@ func GetUser() gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, user)
+	}
+}
+func HandleApiV1() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.JSON(200, gin.H{"success": "Access granted for api-1"})
+	}
+}
+func HandleApiV2() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.JSON(200, gin.H{"success": "Access granted for api-2"})
 	}
 }

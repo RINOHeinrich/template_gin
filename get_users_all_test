@@ -1,0 +1,13 @@
+{
+  "body": {
+    "content": "",
+    "file": false,
+    "fileSize": false
+  },
+  "headers": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InJpbm9iZWluZm9AZ21haWwuY29tIiwiRmlyc3RfbmFtZSI6IlJpbm8iLCJMYXN0X25hbWUiOiJIZWlucmljaCIsIlVpZCI6IjY2NmMwZDlhMTAyNGM1NWQ4ZGQ3NTA1NyIsIlVzZXJfdHlwZSI6IkFETUlOIiwiZXhwIjoxNzE4NDQzODI4fQ.aUgvvf7pP5u3M9LjcafeARF_qmhEmFA5V601rCmUfGI"
+  },
+  "method": "GET",
+  "title": "get_user_all",
+  "url": "http://localhost:8000/usersdata"
+}

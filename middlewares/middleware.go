@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	helper "github.com/RINOBE/gestion_de_livre/helpers"
 	"github.com/gin-gonic/gin"
-	helper "github.com/golangcompany/JWT-Authentication/helpers"
 )
 
 func Authenticate() gin.HandlerFunc {
