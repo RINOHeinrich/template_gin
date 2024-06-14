@@ -145,10 +145,12 @@ func Login() gin.HandlerFunc {
 }
 func GetUsers() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		//Verify if the user is an admin
 		if err := helper.CheckUserType(c, "ADMIN"); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
+
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 
 		recordPerPage, err := strconv.Atoi(c.Query("recordPerPage"))

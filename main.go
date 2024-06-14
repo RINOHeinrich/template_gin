@@ -9,7 +9,6 @@ func main() {
 	port := "8000"
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
-
 	routes.UserRoutes(router)
 	routes.AuthRoutes(router)
 

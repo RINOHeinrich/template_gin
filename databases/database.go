@@ -33,3 +33,7 @@ func UserData(client *mongo.Client, CollectionName string) *mongo.Collection {
 	var collection *mongo.Collection = client.Database("authentification").Collection(CollectionName)
 	return collection
 }
+func BookData(client *mongo.Client, CollectionName string) *mongo.Collection {
+	var collection *mongo.Collection = client.Database("book").Collection(CollectionName)
+	return collection
+}

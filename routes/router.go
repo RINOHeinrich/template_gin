@@ -23,7 +23,8 @@ func AuthRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.Use(middleware.Authenticate())
 	incomingRoutes.GET("/usersdata", controller.GetUsers())
 	incomingRoutes.GET("/users/:user_id", controller.GetUser())
-	incomingRoutes.GET("/api-1", controller.HandleApiV1())
-
-	incomingRoutes.GET("/api-2", controller.HandleApiV2())
+	incomingRoutes.GET("/books", controller.GetAllBooks())
+	incomingRoutes.POST("/books", controller.InsertBook())
+	incomingRoutes.DELETE("/books/:id", controller.DelBook())
+	incomingRoutes.PUT("/books/:id", controller.UpdateBook())
 }
