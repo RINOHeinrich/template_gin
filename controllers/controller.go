@@ -45,7 +45,8 @@ func VerifyPassword(userPassword string, providedPassword string) (bool, string)
 func Signup() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
-		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
 		var user models.User
 
 		if err := c.BindJSON(&user); err != nil {
@@ -56,28 +57,33 @@ func Signup() gin.HandlerFunc {
 		validationErr := validate.Struct(user)
 		if validationErr != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
+			cancel()
 			return
 		}
 
 		count, err := userCollection.CountDocuments(ctx, bson.M{"email": user.Email})
-		defer cancel()
 		if err != nil {
 			log.Panic(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "error detected while fetching the email"})
+			cancel()
+			return
 		}
 
 		password := HashPassword(*user.Password)
 		user.Password = &password
 
 		count, err = userCollection.CountDocuments(ctx, bson.M{"phone": user.Phone})
-		defer cancel()
 		if err != nil {
 			log.Panic(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error occured while fetching the phone number"})
+			cancel()
+			return
 		}
 
 		if count > 0 {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "The mentioned E-Mail or Phone Number already exists"})
+			cancel()
+			return
 		}
 
 		user.Created_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
@@ -92,9 +98,9 @@ func Signup() gin.HandlerFunc {
 		if insertErr != nil {
 			msg := fmt.Sprintf("User Details were not Saved")
 			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
+			cancel()
 			return
 		}
-		defer cancel()
 		c.JSON(http.StatusOK, resultInsertionNumber)
 	}
 
@@ -125,7 +131,7 @@ func Login() gin.HandlerFunc {
 		}
 
 		if foundUser.Email == nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "user not found"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "email or password is incorrect"})
 		}
 		token, refreshToken, _ := helper.GenerateAllTokens(*foundUser.Email, *foundUser.First_name, *foundUser.Last_name, *foundUser.User_type, foundUser.User_id)
 		helper.UpdateAllTokens(token, refreshToken, foundUser.User_id)
