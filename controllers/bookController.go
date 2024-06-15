@@ -7,14 +7,18 @@ import (
 	database "github.com/RINOBE/gestion_de_livre/databases"
 	"github.com/RINOBE/gestion_de_livre/models"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var bookCollection = database.Client.Database("book").Collection("books")
+var bookCollection *mongo.Collection = database.BookData(database.Client, "book")
 
 func GetAllBooks() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//get all books in mongo collection
-		books, err := bookCollection.Find(context.TODO(), nil)
+		filter := bson.D{{}}
+		books, err := bookCollection.Find(context.Background(), filter)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
@@ -31,7 +35,13 @@ func InsertBook() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
+		book.ID = primitive.NewObjectID()
 		_, err = bookCollection.InsertOne(context.Background(), book)
+		/* 		validator_err := validate.Struct(book)
+		   		if validator_err != nil {
+		   			c.JSON(http.StatusBadRequest, gin.H{"error": validator_err.Error()})
+		   			return
+		   		} */
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return

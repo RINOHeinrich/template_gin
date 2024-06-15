@@ -1,0 +1,10 @@
+POST http://localhost:8000/books 
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InJpbm9iZWluZm9AZ21haWwuY29tIiwiRmlyc3RfbmFtZSI6IlJpbm8iLCJMYXN0X25hbWUiOiJIZWlucmljaCIsIlVpZCI6IjY2NmMwZDlhMTAyNGM1NWQ4ZGQ3NTA1NyIsIlVzZXJfdHlwZSI6IkFETUlOIiwiZXhwIjoxNzE4NDcyOTI2fQ.JaUlkiQjmt449xyhZuZsELzBxVh0lf7YrEr5xhM_bm8
+keepalive: true
+
+{
+    "Title": "The Book Title1",
+    "Author": "John Doe",
+    "ISBN": "1234567890"
+}

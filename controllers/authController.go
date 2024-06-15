@@ -140,6 +140,7 @@ func Login() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
+		fmt.Println(foundUser)
 		c.JSON(http.StatusOK, foundUser)
 	}
 }
