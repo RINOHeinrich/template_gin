@@ -37,11 +37,11 @@ func InsertBook() gin.HandlerFunc {
 		}
 		book.ID = primitive.NewObjectID()
 		_, err = bookCollection.InsertOne(context.Background(), book)
-		/* 		validator_err := validate.Struct(book)
-		   		if validator_err != nil {
-		   			c.JSON(http.StatusBadRequest, gin.H{"error": validator_err.Error()})
-		   			return
-		   		} */
+		validator_err := validate.Struct(book)
+		if validator_err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": validator_err.Error()})
+			return
+		}
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
