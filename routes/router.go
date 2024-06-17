@@ -1,9 +1,9 @@
 package routes
 
 import (
+	controller "github.com/RINOHeinrich/template_gin/controllers"
+	middleware "github.com/RINOHeinrich/template_gin/middlewares"
 	"github.com/gin-gonic/gin"
-	controller "github.com/golangcompany/JWT-Authentication/controllers"
-	"github.com/golangcompany/JWT-Authentication/middleware"
 )
 
 func UserRoutes(incomingRoutes *gin.Engine) {
@@ -20,7 +20,7 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 // Parameters:
 // - incomingRoutes: A pointer to the gin.Engine instance to which the routes will be added.
 func AuthRoutes(incomingRoutes *gin.Engine) {
-	incomingRoutes.Use(middleware.UserAuthenticate())
+	incomingRoutes.Use(middleware.Authenticate())
 	incomingRoutes.GET("/usersdata", controller.GetUsers())
 	incomingRoutes.GET("/users/:user_id", controller.GetUser())
 }

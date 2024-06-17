@@ -1,8 +1,8 @@
 package main
 
 import (
+	routes "github.com/RINOHeinrich/template_gin/routes"
 	"github.com/gin-gonic/gin"
-	routes "github.com/golangcompany/JWT-Authentication/routes"
 )
 
 func main() {

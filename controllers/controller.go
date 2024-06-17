@@ -8,11 +8,12 @@ import (
 	"strconv"
 	"time"
 
+	database "github.com/RINOHeinrich/template_gin/databases"
+
+	helper "github.com/RINOHeinrich/template_gin/helpers"
+	"github.com/RINOHeinrich/template_gin/models"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/golangcompany/JWT-Authentication/database"
-	helper "github.com/golangcompany/JWT-Authentication/helpers"
-	"github.com/golangcompany/JWT-Authentication/models"
 	"golang.org/x/crypto/bcrypt"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -206,5 +207,27 @@ func GetUser() gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, user)
+	}
+}
+
+type HandlerFunc func(c *gin.Context)
+
+func OnlyAdmin(fn HandlerFunc) HandlerFunc {
+	return func(c *gin.Context) {
+		userId := c.Param("user_id")
+		var user models.User
+		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		err := userCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&user)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		if user.Roles == "ADMIN" {
+			fn(c)
+		} else {
+			c.JSON(http.StatusForbidden, gin.H{"error": "User is not an admin"})
+		}
 	}
 }
