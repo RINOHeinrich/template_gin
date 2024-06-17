@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/RINOHeinrich/template_gin/database"
+	database "github.com/RINOHeinrich/template_gin/databases"
 	jwt "github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
