@@ -21,7 +21,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var userCollection *mongo.Collection = database.UserData(database.Client, "user")
+var userCollection *mongo.Collection = database.UserData(database.Client, "users")
 var validate = validator.New()
 
 func HashPassword(password string) string {
@@ -212,7 +212,11 @@ func GetUser() gin.HandlerFunc {
 
 func OnlyAdmin(fn gin.HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userId := c.Param("user_id")
+		userId, exist := c.Get("uid")
+		if !exist {
+			c.JSON(http.StatusForbidden, gin.H{"error": "User is not an admin"})
+			return
+		}
 		var user models.User
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
@@ -222,7 +226,7 @@ func OnlyAdmin(fn gin.HandlerFunc) gin.HandlerFunc {
 			return
 		}
 
-		if user.Roles == "ADMIN" {
+		if *user.User_type == "ADMIN" {
 			fn(c)
 		} else {
 			c.JSON(http.StatusForbidden, gin.H{"error": "User is not an admin"})

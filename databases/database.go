@@ -29,6 +29,6 @@ func DBSet() *mongo.Client {
 var Client *mongo.Client = DBSet()
 
 func UserData(client *mongo.Client, CollectionName string) *mongo.Collection {
-	var collection *mongo.Collection = client.Database("Cluster0").Collection(CollectionName)
+	var collection *mongo.Collection = client.Database("authentication").Collection(CollectionName)
 	return collection
 }

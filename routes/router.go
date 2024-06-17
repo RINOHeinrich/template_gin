@@ -21,6 +21,7 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 // - incomingRoutes: A pointer to the gin.Engine instance to which the routes will be added.
 func AuthRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.Use(middleware.Authenticate())
-	incomingRoutes.GET("/usersdata", controller.GetUsers())
+	incomingRoutes.GET("/usersdata", controller.OnlyAdmin(controller.GetUsers()))
 	incomingRoutes.GET("/users/:user_id", controller.GetUser())
+
 }
