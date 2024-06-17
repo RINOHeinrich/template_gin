@@ -210,9 +210,7 @@ func GetUser() gin.HandlerFunc {
 	}
 }
 
-type HandlerFunc func(c *gin.Context)
-
-func OnlyAdmin(fn HandlerFunc) HandlerFunc {
+func OnlyAdmin(fn gin.HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.Param("user_id")
 		var user models.User
